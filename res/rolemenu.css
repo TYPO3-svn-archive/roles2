@@ -1,0 +1,110 @@
+/* - - - - - - - - - - - - - - - - - - - - -
+
+Title  : TYPO3 backend RoleMenu styles
+Author : Stig Nørgaard Færch <stig@8620.dk>
+
+Description : styles the RoleMenu
+
+- - - - - - - - - - - - - - - - - - - - - */
+
+/* ----- Roles ----- */
+
+#role-menu {
+/*	width: 30px;*/
+/*width:200px;*/
+}
+
+#role-menu .toolbar-item span,#role-menu .toolbar-item img {
+/*	display:inline;*/
+}
+
+#role-name .toolbar-item p {
+	margin: 0 5px 0 7px;
+}
+
+#role-menu .roletitle {
+	float:left;
+	background-image:url(../gfx/toolbar_separator.png);
+	padding-bottom:9px;
+	padding-top:2px;
+	text-align:center;
+}
+
+#role-menu .selectedRole {
+	float:left;
+	display:inline;
+}
+
+#role-menu a.toolbar-item {
+/*	background-image: none;*/
+	width: 30px;
+	display:inline-block;
+/*	text-align:center;*/
+}
+
+#role-menu .toolbar-item-menu {
+	position: absolute;
+	list-style: none;
+	padding: 2px 0px 0px;
+	margin: 0px;
+	background-color: #f9f9f9;
+	border: 1px solid #abb2bc;
+	border-top: none;
+	width: 220px;
+}
+
+#role-menu .role-list {
+	width: 100%;
+}
+
+#role-menu .role-list tr.role td {
+	padding: 2px 1px;
+	line-height: 16px;
+}
+
+#role-menu .role-list tr.role.first-row td {
+	background-image: url('../gfx/shortcutgroups-bg.png');
+	background-repeat: repeat-x;
+	padding-top: 4px;
+}
+
+#role-menu .role-list tr.role-group td.role-group-icon,
+#role-menu .role-list tr.role td.role-icon,
+#role-menu .role-list td.role-edit,
+#role-menu .role-list td.role-delete {
+	width: 18px;
+	text-align: center;
+	vertical-align: top;
+}
+
+#role-menu .role-list tr.role td.role-label a {
+	display: block;
+	cursor: pointer;
+}
+
+#role-menu .role-list tr.role td.role-edit img,
+#role-menu .role-list tr.role td.role-delete img {
+	display: none;
+	cursor: pointer;
+}
+
+#role-menu .role-list tr.role:hover td.role-edit img,
+#role-menu .role-list tr.role:hover td.role-delete img {
+	display: inline;
+}
+
+#role-menu .role-list tr.role-group td.role-group-icon,
+#role-menu .role-list tr.role td.role-icon {
+	padding-left: 7px;
+	vertical-align: top;
+}
+
+#role-menu .role-list .role-group td {
+	border-top: 1px solid #a5a5a5;
+	border-bottom: 1px solid #a5a5a5;
+	background-color: #dbdbdb;
+}
+#role-menu .role-list .firstafterglobal td {
+	border-top: 1px dotted #a5a5a5;
+/*	background-color: #dbdbdb;*/
+}
