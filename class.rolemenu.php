@@ -147,8 +147,8 @@ class RoleMenu implements backend_toolbarItem {
 					$edit = '<a href="#" onclick="' . t3lib_BEfunc::editOnClick($params,$GLOBALS['BACK_PATH'],'') . '"><img ' . t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'],'gfx/edit2.gif') . ' border="0" align="top" title="' . $GLOBALS['LANG']->sL('LLL:EXT:roles2/locallang.xml:edit', true) . '" alt="" /></a>';
 					$roleMenu[] = 
 					'<span style="float:left;">'.t3lib_iconWorks::getIconImage('be_users',$user,$GLOBALS['BACK_PATH'],'align="top" title="' . $user['uid'] . '"') .'&nbsp;&nbsp;'. $user['username'] .'</span><span style="float:right;">'. $edit .'
-					<a target="_top" href="/typo3/mod.php?M=tools_beuser&amp;SwitchUser='.$user['uid'].'"><img height="16" border="0" align="top" width="16" alt="" title="Switch user to: 123123 [change-to mode]" src="sysext/t3skin/icons/gfx/su.gif"/></a>
-					<a target="_top" href="/typo3/mod.php?M=tools_beuser&amp;SwitchUser='.$user['uid'].'&amp;switchBackUser=1"><img height="16" border="0" align="top" width="16" alt="" title="Switch user to: 123123 [switch-back mode]" src="sysext/t3skin/icons/gfx/su_back.gif"/></a></span>
+					<a target="_top" href="' . $GLOBALS['BACK_PATH'] . 'mod.php?M=tools_beuser&amp;SwitchUser='.$user['uid'].'"><img height="16" border="0" align="top" width="16" alt="" title="Switch user to: 123123 [change-to mode]" src="sysext/t3skin/icons/gfx/su.gif"/></a>
+					<a target="_top" href="' . $GLOBALS['BACK_PATH'] . 'mod.php?M=tools_beuser&amp;SwitchUser='.$user['uid'].'&amp;switchBackUser=1"><img height="16" border="0" align="top" width="16" alt="" title="Switch user to: 123123 [switch-back mode]" src="sysext/t3skin/icons/gfx/su_back.gif"/></a></span>
 					';
 				}
 			} else {
@@ -452,14 +452,17 @@ class RoleMenu implements backend_toolbarItem {
 		$this->getRoles($grList);
 	    
 			// add labels
-		foreach($this->roles as $roleId => $roleLabel) {
-			$this->roles[$roleId] = $roleLabel;
+		if (is_array($this->roles)) {
+			foreach($this->roles as $roleId => $roleLabel) {
+				$this->roles[$roleId] = $roleLabel;
+			}
 		}
 		return $this->roles;
 	}
 	protected function getRoles($grList,$notList='') {
 	    $lockToDomain_SQL = ' AND (lockToDomain=\'\' OR lockToDomain=\''.t3lib_div::getIndpEnv('HTTP_HOST').'\')';
 	    $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $GLOBALS['BE_USER']->usergroup_table, 'deleted=0 AND hidden=0 AND pid=0 AND uid IN ('.$grList.')'.$lockToDomain_SQL.' ORDER BY title');
+	    $this->ALL_roles_ARRAY = array();
 	    while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 			if($row['tx_roles_role']==1) {
 			    $this->ALL_roles_ARRAY[] = $row['uid'];
@@ -713,14 +716,12 @@ class RoleMenu implements backend_toolbarItem {
 	 * @return	array	array of groups which have roles
 	 */
 	protected function getShortcutsFromRoles() {
-		$roles = array();
-
 		$roles = $this->roles;
 		foreach($this->shortcuts as $role) {
 			$roles[$role['usergroup']] = $this->roles[$role['usergroup']];
 		}
 
-		return array_unique($roles);
+		return is_array($roles) ? array_unique($roles) : array();
 	}
 
 	/**
