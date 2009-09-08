@@ -84,11 +84,13 @@ class RoleMenu implements backend_toolbarItem {
 		$this->backendReference = $backendReference;
 		$this->shortcuts        = array();
 		$_GET['module'] = 'web_list';
-
 		//If there are assigned no roles or if you are admin, the shortcuts shouldn't be fetched
 		if(!$GLOBALS['BE_USER']->isAdmin()) {
 			$this->roles  = $this->initRoles();
-			if($this->ALL_roles_LIST!='') $this->shortcuts = $this->initShortcuts();
+			if($this->ALL_roles_LIST!='') {
+				$this->shortcuts = $this->initShortcuts();
+
+			}
 		}
 	}
 
@@ -449,32 +451,32 @@ class RoleMenu implements backend_toolbarItem {
 	protected function initRoles($params = array(), TYPO3AJAX &$ajaxObj = null) {
 		$grList=$GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->usergroup_column];
 		$grList=($grList?$grList:'0');
-		$this->getRoles($grList);
+		$roles = $this->getRoles($grList);
 	    
 			// add labels
-		if (is_array($this->roles)) {
-			foreach($this->roles as $roleId => $roleLabel) {
-				$this->roles[$roleId] = $roleLabel;
+		if (is_array($roles)) {
+			$this->ALL_roles_LIST = implode(',',array_keys($roles));
+			foreach($roles as $roleId => $roleLabel) {
+				$roles[$roleId] = $roleLabel;
 			}
 		}
-		return $this->roles;
+		return $roles;
 	}
-	protected function getRoles($grList,$notList='') {
+	protected function getRoles($grList,$roles=array()) {
 	    $lockToDomain_SQL = ' AND (lockToDomain=\'\' OR lockToDomain=\''.t3lib_div::getIndpEnv('HTTP_HOST').'\')';
 	    $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $GLOBALS['BE_USER']->usergroup_table, 'deleted=0 AND hidden=0 AND pid=0 AND uid IN ('.$grList.')'.$lockToDomain_SQL.' ORDER BY title');
-	    $this->ALL_roles_ARRAY = array();
+	    $this->ALL_roles_ARRAY = is_array($this->ALL_roles_ARRAY)?$this->ALL_roles_ARRAY:array();
 	    while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 			if($row['tx_roles_role']==1) {
-			    $this->ALL_roles_ARRAY[] = $row['uid'];
-	    		$this->roles[$row['uid']] = $row['title'];
+	    		$roles[$row['uid']] = $row['title'];
 			}
 			if(trim($row['subgroup'])) {
-			    $theList = implode(',',t3lib_div::intExplode(',',$row['subgroup']));
-			    $this->getRoles($theList,$notList);
+// Why???	    $theList = implode(',',t3lib_div::intExplode(',',$row['subgroup']));
+				$theList = $row['subgroup'];
+			    $this->getRoles($theList,$roles);
 			}
 	    }
-	    $this->ALL_roles_LIST = implode(",",$this->ALL_roles_ARRAY);
-		return $this->roleList;
+		return $roles;
     }
 	
 	
@@ -862,4 +864,4 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['typo3/class
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['typo3/classes/class.rolemenu.php']);
 }
 
-?>
+?>
