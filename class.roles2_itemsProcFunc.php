@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006 Stig Nørgaard Færch
+*  (c) 2006 Stig NÃ¸rgaard FÃ¦rch
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,14 +27,14 @@
 /**
  * Function for prepending roles2-be_groups with [role]
  *
- * @author	Stig Nørgaard Færch
+ * @author	Stig NÃ¸rgaard FÃ¦rch
  */
 
 
  /**
   * 'itemsProcFunc' for the 'tt_news' extension.
   *
-  * @author	Stig Nørgaard Færch
+  * @author	Stig NÃ¸rgaard FÃ¦rch
   * @package TYPO3
   * @subpackage roles2
   */
