@@ -132,7 +132,7 @@ class RoleMenu implements backend_toolbarItem {
 	
 	public function getCurrentRoleName() {
 		$currentRole = $this->roles[$this->shortcutsession['currentRole']];
-		return $currentRole?'<span class="toolbar-item"><p>'.$currentRole.':</p></span>':'<div></div>';
+		return $currentRole?'<span class="toolbar-item"><p id="role-active">'.$currentRole.':</p></span>':'<div></div>';
 	}
 	
 

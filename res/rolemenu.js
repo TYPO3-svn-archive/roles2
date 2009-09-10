@@ -34,9 +34,11 @@ top.nextLoadModuleUrl = unescape('%2Ftypo3%2Falt_doc.php%3F%26returnUrl%3Ddb_lis
 	 * when finished it reloads the menu
 	 */
 TYPO3BackendShortcutMenu.createShortcut = function(backPath, moduleName, url){
-		$$('#shortcut-menu .toolbar-item img')[0].src = 'gfx/spinner.gif';
-		$$('#role-menu .toolbar-item img')[0].src = 'gfx/spinner.gif';
-			
+		if(document.getElementById('role-active')) {
+			$$('#role-menu .toolbar-item img')[0].src = 'gfx/spinner.gif';
+		} else {
+			$$('#shortcut-menu .toolbar-item img')[0].src = 'gfx/spinner.gif';
+		}
 		new Ajax.Request('ajax.php', {
 			method: 'get',
 			parameters: 'ajaxID=RoleMenu::getActivatedRole',
@@ -60,10 +62,25 @@ TYPO3BackendShortcutMenu.createShortcut = function(backPath, moduleName, url){
 				});
 			}
 		});
-		top.TYPO3BackendRoleMenu.reRenderMenu(null, null, backPath);
-		top.TYPO3BackendShortcutMenu.reRenderMenu(null, null, backPath);
-		$$('#shortcut-menu .toolbar-item img')[0].src = this.toolbarItemIcon;
-		$$('#role-menu .toolbar-item img')[0].src = this.toolbarItemIcon;
+		if(document.getElementById('role-active')) {
+			top.TYPO3BackendRoleMenu.reRenderMenu(null, null, backPath);
+			$$('#role-menu .toolbar-item img')[0].src = top.TYPO3BackendRoleMenu.toolbarItemIcon;
+
+		} else {
+			top.TYPO3BackendShortcutMenu.reRenderMenu(null, null, backPath);			
+			$$('#shortcut-menu .toolbar-item img')[0].src = this.toolbarItemIcon;			
+
+		}
+/*
+		if(document.getElementById('shortcut-menu')) {
+			top.TYPO3BackendShortcutMenu.reRenderMenu(null, null, backPath);			
+			$$('#shortcut-menu .toolbar-item img')[0].src = this.toolbarItemIcon;			
+		}
+		if(document.getElementById('role-menu')) {
+			top.TYPO3BackendRoleMenu.reRenderMenu(null, null, backPath);
+			$$('#role-menu .toolbar-item img')[0].src = top.TYPO3BackendRoleMenu.toolbarItemIcon;
+		}
+		* */
 }
 
 /**
